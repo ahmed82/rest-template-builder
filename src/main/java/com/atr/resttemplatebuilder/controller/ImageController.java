@@ -58,12 +58,10 @@ public class ImageController {
 			@RequestParam(name = "invoiceDate", required = false) 	String invoiceDate
 			)
 	{
-		invoiceNumber="2305NURSERY13";
-		invoiceDate=	"2017-01-11T12:00:00.000Z";	
-		vendorNumber = "T141707000";
+		
 		//String uri = fileNetService.getDocumentsList(invoiceNumber,vendorNumber,invoiceDate);
 		
-		String uri = "/v1/documents?documentclass=IndirectPayables&invoiceNumber=2305NURSERY13&invoiceDateStart=2011-06-21T03:59:41.105Z&invoiceDateEnd=2013-06-22T03:59:41.105Z";
+		String uri = "/v1/documents?documentclass=IndirectPayables&invoiceNumber=111111&invoiceDateStart=2011-06-21T03:59:41.105Z&invoiceDateEnd=2013-06-22T03:59:41.105Z";
 	    //RestTemplate restTemplate = new RestTemplate();
 		System.out.println("----------------------"+uri);
 	     
@@ -97,5 +95,15 @@ public class ImageController {
 		Object[] objs = restTemplate.getForObject(url, Object[].class);
 		return Arrays.asList(objs);
 	}
+	
+	  @RequestMapping(value = "/template/products", method = RequestMethod.POST)
+	   public String createProducts(@RequestBody Product product) {
+	      HttpHeaders headers = new HttpHeaders();
+	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	      HttpEntity<Product> entity = new HttpEntity<Product>(product,headers);
+	      
+	      return restTemplate.exchange(
+	         "http://localhost:8080/products", HttpMethod.POST, entity, String.class).getBody();
+	   }
 
 }
